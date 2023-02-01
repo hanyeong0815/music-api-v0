@@ -2,7 +2,7 @@ package com.self.music.authentication;
 
 import com.self.music.authentication.token.CommonAuthenticationToken;
 import com.self.music.authentication.token.UserAuthenticationToken;
-import com.self.music.service.UserService;
+import com.self.music.service.DefaultUserService;
 import com.self.music.utills.PasswordEncoderStorage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class UserAuthenticationProvider implements AuthenticationProvider {
-    private final UserService userService;
+    private final DefaultUserService defaultUserService;
     private final PasswordEncoderStorage pwEncoders;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        UserDetails user = userService.loadUserByUsername(authentication.getName());
+        UserDetails user = defaultUserService.loadUserByUsername(authentication.getName());
 
         boolean isAuthenticated = pwEncoders.getPasswordEncoder().matches((String)authentication.getCredentials(), user.getPassword());
 

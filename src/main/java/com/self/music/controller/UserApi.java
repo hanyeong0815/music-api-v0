@@ -7,6 +7,7 @@ import com.self.music.dto.request.SignUpRequest.SignUpReq;
 import com.self.music.dto.response.JwtResponse;
 import com.self.music.dto.response.UsersResponse.UsersRes;
 import com.self.music.service.AuthenticationService;
+import com.self.music.service.DefaultUserService;
 import com.self.music.service.UserService;
 import com.self.music.utills.PasswordEncoderStorage;
 import lombok.RequiredArgsConstructor;

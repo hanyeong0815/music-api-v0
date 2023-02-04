@@ -1,5 +1,8 @@
 package com.self.music.controller;
 
+import com.self.music.authentication.token.CommonAuthenticationToken;
+import com.self.music.authentication.token.UserAuthenticationToken;
+import com.self.music.domain.Users;
 import com.self.music.dto.request.ChangePwDto.ChangePwRequest;
 import com.self.music.dto.request.ChangePwDto.HasPwRequest;
 import com.self.music.dto.request.CheckPwDto.CheckPwRequest;
@@ -14,7 +17,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping
@@ -25,8 +33,13 @@ public class UserApi {
     private final PasswordEncoderStorage encoder;
 
     @PostMapping("/signup")
-    public boolean signUp(@RequestBody SignUpReq req) {
-        return userService.signUp(req.toEntity(encoder.getPasswordEncoder()));
+    public ResponseEntity<JwtResponse> signUp(@RequestBody SignUpReq req) {
+        Authentication newUsers = userService.signUp(req.toEntity(encoder.getPasswordEncoder()));
+        if (newUsers == null) {
+            return null;
+        }
+
+        return this.login(newUsers);
     }
 
     @PostMapping("/login")

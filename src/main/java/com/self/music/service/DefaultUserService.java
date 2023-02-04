@@ -1,5 +1,7 @@
 package com.self.music.service;
 
+import com.self.music.authentication.token.CommonAuthenticationToken;
+import com.self.music.authentication.token.UserAuthenticationToken;
 import com.self.music.core.error.Preconditions;
 import com.self.music.core.error.member.MemberErrorCode;
 import com.self.music.domain.Users;
@@ -10,13 +12,18 @@ import com.self.music.dto.request.CheckPwDto.CheckPwRequest;
 import com.self.music.dto.response.UsersResponse.UsersRes;
 import com.self.music.utills.PasswordEncoderStorage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,13 +42,20 @@ public class DefaultUserService implements UserDetailsService, UserService {
     }
 
     @Override
-    public boolean signUp(Users users) {
+    public Authentication signUp(Users users) {
         Users hasUser = usersRepo.findUserNameByUsername(users.getUsername());
         if (null != hasUser) {
-            return false;
+            return null;
         }
         Users newUser = usersRepo.save(users);
-        return newUser != null;
+        if (newUser == null) {
+            return null;
+        }
+        Collection<? extends GrantedAuthority> roles = newUser.getRoles().stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+        Authentication auth = CommonAuthenticationToken.authenticated(UserAuthenticationToken.class, newUser.getUsername(), newUser.getPassword(), roles);
+        return auth;
     }
 
     @Override

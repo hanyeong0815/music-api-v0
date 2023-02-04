@@ -1,8 +1,5 @@
 package com.self.music.controller;
 
-import com.self.music.authentication.token.CommonAuthenticationToken;
-import com.self.music.authentication.token.UserAuthenticationToken;
-import com.self.music.domain.Users;
 import com.self.music.dto.request.ChangePwDto.ChangePwRequest;
 import com.self.music.dto.request.ChangePwDto.HasPwRequest;
 import com.self.music.dto.request.CheckPwDto.CheckPwRequest;
@@ -10,19 +7,13 @@ import com.self.music.dto.request.SignUpRequest.SignUpReq;
 import com.self.music.dto.response.JwtResponse;
 import com.self.music.dto.response.UsersResponse.UsersRes;
 import com.self.music.service.AuthenticationService;
-import com.self.music.service.DefaultUserService;
 import com.self.music.service.UserService;
 import com.self.music.utills.PasswordEncoderStorage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping

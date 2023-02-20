@@ -1,40 +1,47 @@
 package com.self.music.domain;
 
-import com.self.music.utills.domain.BaseEntity;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Table;
 import java.sql.Blob;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
-@Entity
+@Document(collection = "board")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "board")
-public class Board extends BaseEntity {
-    @Column
+public class Board {
+    @Id
+    private  String id;
+
     private Long userId;
 
-    @Column
-    private String musicName;
+    private String title;
 
-    @Column
-    private OffsetDateTime uploadDate;
+    private String lyrics;
 
-    @Column
+    private Instant uploadDate;
+
     private String uploadIp;
 
-    @Column
-    @Lob
-    private byte[] imgBlob;
+    private String imgUrl;
 
-    @Column
-    @Lob
-    private byte[] musicBlob;
+    private String musicUrl;
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "id='" + id + '\'' +
+                ", userId=" + userId +
+                ", title='" + title + '\'' +
+                ", lyrics='" + lyrics + '\'' +
+                ", uploadDate=" + uploadDate +
+                ", uploadIp='" + uploadIp + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", musicUrl='" + musicUrl + '\'' +
+                '}';
+    }
 }

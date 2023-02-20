@@ -1,5 +1,6 @@
 package com.self.music.controller;
 
+import com.self.music.config.MongoConfiguration;
 import com.self.music.dto.request.ChangePwDto.ChangePwRequest;
 import com.self.music.dto.request.ChangePwDto.HasPwRequest;
 import com.self.music.dto.request.CheckPwDto.CheckPwRequest;
@@ -42,6 +43,7 @@ public class UserApi {
     @GetMapping("/home")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public UsersRes usersInfo(String username) {
+
         return userService.usersInfo(username);
     }
 

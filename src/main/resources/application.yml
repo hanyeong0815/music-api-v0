@@ -13,8 +13,37 @@ spring:
   flyway:
     enabled: true
 
+  data:
+    mongodb:
+      username: qwer
+      password: 1234
+      uri: mongodb://127.0.0.1:27017/some-mongo
+      authentication-database: admin
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAQRFLMDXLWPSFAYWW
+      secretKey: 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
+    s3:
+      bucket: music-yoehadu
+
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+
 jwt:
   public:
     key: classpath:/key/app.pub
   private:
     key: classpath:/key/app.key
+
+server:
+  port: 8080

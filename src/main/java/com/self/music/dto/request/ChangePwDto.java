@@ -1,9 +1,9 @@
 package com.self.music.dto.request;
 
-import com.self.music.utills.PasswordEncoderStorage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class ChangePwDto {
@@ -17,6 +17,7 @@ public class ChangePwDto {
     }
 
     @Getter
+    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ChangePwRequest {

@@ -4,7 +4,6 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.sql.Blob;
 import java.time.Instant;
 
 @Document(collection = "board")
@@ -18,6 +17,8 @@ public class Board {
     private  String id;
 
     private Long userId;
+
+    private String userName;
 
     private String title;
 
@@ -36,6 +37,7 @@ public class Board {
         return "Board{" +
                 "id='" + id + '\'' +
                 ", userId=" + userId +
+                ", userName='" + userName + '\'' +
                 ", title='" + title + '\'' +
                 ", lyrics='" + lyrics + '\'' +
                 ", uploadDate=" + uploadDate +

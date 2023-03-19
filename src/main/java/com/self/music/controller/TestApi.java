@@ -3,7 +3,6 @@ package com.self.music.controller;
 import com.self.music.domain.Board;
 import com.self.music.domain.Users;
 import com.self.music.service.BoardService;
-import com.self.music.service.DefaultUserService;
 import com.self.music.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

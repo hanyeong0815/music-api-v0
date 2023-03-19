@@ -1,6 +1,6 @@
 package com.self.music.controller;
 
-import com.self.music.config.MongoConfiguration;
+import com.self.music.domain.Users;
 import com.self.music.dto.request.ChangePwDto.ChangePwRequest;
 import com.self.music.dto.request.ChangePwDto.HasPwRequest;
 import com.self.music.dto.request.CheckPwDto.CheckPwRequest;
@@ -9,11 +9,12 @@ import com.self.music.dto.response.JwtResponse;
 import com.self.music.dto.response.UsersResponse.UsersRes;
 import com.self.music.service.AuthenticationService;
 import com.self.music.service.UserService;
-import com.self.music.utills.PasswordEncoderStorage;
+import com.self.music.utills.password.PasswordEncoderFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,11 +23,20 @@ import org.springframework.web.bind.annotation.*;
 public class UserApi {
     private final UserService userService;
     private final AuthenticationService authenticationService;
-    private final PasswordEncoderStorage encoder;
+    private final PasswordEncoderFactory encoder;
 
     @PostMapping("/signup")
     public ResponseEntity<JwtResponse> signUp(@RequestBody SignUpReq req) {
-        Authentication newUsers = userService.signUp(req.toEntity(encoder.getPasswordEncoder()));
+        Users users = Users.builder()
+                .username(req.getUserName())
+                .password(encoder.defaultEncoder().encode(req.getPassword()))
+                .email(req.getEmail())
+                .name(req.getName())
+                .nickname(req.getNickname())
+                .genderType(req.getGender())
+                .roles(req.getRoles())
+                .build();
+        Authentication newUsers = userService.signUp(users);
         if (newUsers == null) {
             return null;
         }
@@ -65,7 +75,8 @@ public class UserApi {
 
     @PostMapping("/change-pw")
     public boolean changePw(@RequestBody ChangePwRequest req) {
-        return userService.changePw(req.ChangePwRequest(encoder.getPasswordEncoder()));
+        req.setChangedPw(encoder.defaultEncoder().encode(req.getChangedPw()));
+        return userService.changePw(req);
     }
 
     @PostMapping("/check-pw")

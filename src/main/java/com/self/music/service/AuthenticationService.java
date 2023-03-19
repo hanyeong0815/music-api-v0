@@ -7,6 +7,7 @@ import com.self.music.domain.Users;
 import com.self.music.domain.UsersRepo;
 import com.self.music.dto.response.JwtResponse;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -30,7 +31,7 @@ public class AuthenticationService {
     private static final Long EXPIRY = 3600L;
     private static final Long REFRESH_EXPIRY = 2628000L;
 
-    public JwtResponse issueUserJwt(Authentication authentication) {
+    public JwtResponse issueUserJwt(@NotNull Authentication authentication) {
         Instant now = Instant.now();
         String subject = USER + "|" + authentication.getName();
         String scope = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(" "));

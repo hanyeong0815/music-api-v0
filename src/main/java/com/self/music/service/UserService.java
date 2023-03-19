@@ -18,4 +18,6 @@ public interface UserService {
     boolean changePw(ChangePwRequest req);
     List<Users> testFindAllUsers();
     boolean checkPw(CheckPwRequest req);
+
+    String findUserNameById(Long userId);
 }

@@ -3,26 +3,27 @@ package com.self.music.authentication;
 import com.self.music.authentication.token.CommonAuthenticationToken;
 import com.self.music.authentication.token.UserAuthenticationToken;
 import com.self.music.service.DefaultUserService;
-import com.self.music.utills.PasswordEncoderStorage;
+import com.self.music.utills.password.PasswordEncoderFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class UserAuthenticationProvider implements AuthenticationProvider {
     private final DefaultUserService defaultUserService;
-    private final PasswordEncoderStorage pwEncoders;
+    private final PasswordEncoderFactory pwEncoders;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UserDetails user = defaultUserService.loadUserByUsername(authentication.getName());
 
-        boolean isAuthenticated = pwEncoders.getPasswordEncoder().matches((String)authentication.getCredentials(), user.getPassword());
+        boolean isAuthenticated = pwEncoders.defaultEncoder().matches((String)authentication.getCredentials(), user.getPassword());
 
         if (isAuthenticated) {
             authentication = CommonAuthenticationToken.authenticated(UserAuthenticationToken.class, authentication.getName(), user, user.getAuthorities());

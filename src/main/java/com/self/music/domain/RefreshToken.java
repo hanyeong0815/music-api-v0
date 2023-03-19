@@ -1,24 +1,29 @@
 package com.self.music.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.Instant;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "refresh_token", indexes = {
+@Table(name = "refresh_token",
+        uniqueConstraints = {
+                @UniqueConstraint(name="uk_token", columnNames = "token")
+        },
+        indexes = {
         @Index(name = "idx_token", columnList = "token"),
         @Index(name = "idx_replaced", columnList = "replaced_by"),
         @Index(name = "idx_subject", columnList = "subject")
 })
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RefreshToken {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

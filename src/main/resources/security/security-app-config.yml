@@ -1,0 +1,6 @@
+app:
+  security:
+    password:
+      encoder: BCRYPT
+      bcrypt:
+        cost-factor: 12

@@ -10,7 +10,7 @@ import com.self.music.dto.request.ChangePwDto.ChangePwRequest;
 import com.self.music.dto.request.ChangePwDto.HasPwRequest;
 import com.self.music.dto.request.CheckPwDto.CheckPwRequest;
 import com.self.music.dto.response.UsersResponse.UsersRes;
-import com.self.music.utills.PasswordEncoderStorage;
+import com.self.music.utills.password.PasswordEncoderFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DefaultUserService implements UserDetailsService, UserService {
     private final UsersRepo usersRepo;
-    private final PasswordEncoderStorage passwordEncoder;
+    private final PasswordEncoderFactory passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -112,7 +113,12 @@ public class DefaultUserService implements UserDetailsService, UserService {
         if (null == users) {
             return false;
         }
-        boolean matchedPw = passwordEncoder.getPasswordEncoder().matches(req.getPassword(), users.getPassword());
+        boolean matchedPw = passwordEncoder.defaultEncoder().matches(req.getPassword(), users.getPassword());
         return matchedPw;
+    }
+
+    @Override
+    public String findUserNameById(Long userId) {
+        return usersRepo.findUserNameById(userId);
     }
 }

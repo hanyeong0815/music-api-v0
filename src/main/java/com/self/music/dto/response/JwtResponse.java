@@ -5,16 +5,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
-@Data
-public class JwtResponse {
-    private final Long usr_id;
-    private final String username;
-    private final String access_token;
-    private final String refresh_token;
-    private final Long expired_in;
-    private final Long refresh_expired_in;
-    private final String token_type;
+public record JwtResponse(Long usr_id, String username, String access_token, String refresh_token, Long expired_in,
+                          Long refresh_expired_in, String token_type) {
 }

@@ -8,6 +8,7 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.self.music.authentication.AuthenticationFilter;
 import com.self.music.authentication.UserAuthenticationProvider;
+import com.self.music.utills.password.PasswordEncoderFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -45,7 +47,7 @@ public class SecurityConfig {
     RSAPrivateKey priv;
     private final AuthenticationFilter authenticationFilter;
 
-    SecurityConfig(UserAuthenticationProvider userAuthenticationProvider) {
+    SecurityConfig(UserAuthenticationProvider userAuthenticationProvider, PasswordEncoderFactory passwordEncoderFactory) {
         AuthenticationManager providerManager = new ProviderManager(userAuthenticationProvider);
         authenticationFilter = new AuthenticationFilter(providerManager);
     }
@@ -97,4 +99,5 @@ public class SecurityConfig {
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
     }
+
 }

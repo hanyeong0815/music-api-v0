@@ -62,8 +62,7 @@ public class DefaultUserService implements UserDetailsService, UserService {
     @Override
     public UsersRes usersInfo(String username) {
         Users users = usersRepo.findByUsername(username).get();
-        UsersRes res = UsersRes.toResFrom(users);
-        return res;
+        return UsersRes.toResFrom(users);
     }
 
     @Override
@@ -98,8 +97,7 @@ public class DefaultUserService implements UserDetailsService, UserService {
                 return false;
             }
         }
-        boolean changedPw = usersRepo.changePw(req.getUserId(), req.getChangedPw()) > 0;
-        return changedPw;
+        return usersRepo.changePw(req.getUserId(), req.getChangedPw()) > 0;
     }
 
     @Override
@@ -110,9 +108,6 @@ public class DefaultUserService implements UserDetailsService, UserService {
     @Override
     public boolean checkPw(CheckPwRequest req) {
         Users users = usersRepo.findById(req.getUserId()).get();
-        if (null == users) {
-            return false;
-        }
         boolean matchedPw = passwordEncoder.defaultEncoder().matches(req.getPassword(), users.getPassword());
         return matchedPw;
     }

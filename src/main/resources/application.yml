@@ -24,9 +24,9 @@ spring:
       port: 6379
 
     mongodb:
-      username: qwer
+      username: root
       password: 1234
-      uri: mongodb://127.0.0.1:27017/mongo-db
+      uri: mongodb://127.0.0.1:27017/some-mongo
       authentication-database: admin
 
   servlet:

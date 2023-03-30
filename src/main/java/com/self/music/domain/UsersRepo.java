@@ -28,5 +28,8 @@ public interface UsersRepo extends JpaRepository<Users, Long> {
 
     int deleteByUsername(String username);
 
+    @Query(
+            "select u.username from Users u where u.id = ?1"
+    )
     String findUserNameById(Long userId);
 }

@@ -24,7 +24,7 @@ services:
 
   music_postgres14_proto:
     image: postgres:14
-    container_name: preset_postgres14_rdb_proto
+    container_name: music_postgres14_rdb_proto
     environment:
       TZ: Asia/Seoul
       POSTGRES_DB: "${POSTGRES_DB}"
@@ -42,7 +42,7 @@ services:
 
   music_redis_proto:
     image: redis:7.0
-    container_name: preset_redis7_proto
+    container_name: music_redis7_proto
     ports:
       - "6379:6379"
     volumes:

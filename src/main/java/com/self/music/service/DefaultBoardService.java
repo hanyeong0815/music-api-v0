@@ -3,6 +3,7 @@ package com.self.music.service;
 import com.self.music.domain.Board;
 import com.self.music.domain.BoardRepo;
 import com.self.music.dto.response.BoardListResponse.BoardListRes;
+import com.self.music.dto.response.BoardResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,12 +18,20 @@ public class DefaultBoardService implements BoardService{
 
     @Override
     public boolean insertNewBoard(Board toEntity) {
-        return boardRepo.save(toEntity) != null;
+        boardRepo.save(toEntity);
+        return true;
     }
 
     @Override
     public List<Board> testFindAllBoard() {
         return boardRepo.findAll();
+    }
+
+    @Override
+    public BoardResponse findById(String boardId) {
+        Board board = boardRepo.findById(boardId).orElseThrow();
+        BoardResponse boardRes = new BoardResponse(board.getId(), board.getUserId(), board.getTitle(), board.getLyrics(), board.getMusicUrl(), board.getImgUrl(), board.getUploadDate());
+        return boardRes;
     }
 
     @Override

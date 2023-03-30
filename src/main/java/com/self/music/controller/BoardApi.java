@@ -7,6 +7,7 @@ import com.self.music.domain.Board;
 import com.self.music.domain.enums.FileType;
 import com.self.music.dto.request.BoardUpload.BoardUploadRequest;
 import com.self.music.dto.response.BoardListResponse.BoardListRes;
+import com.self.music.dto.response.BoardResponse;
 import com.self.music.service.AwsS3Service;
 import com.self.music.service.BoardService;
 import com.self.music.service.UserService;
@@ -64,6 +65,11 @@ public class BoardApi {
                 .build();
 
         return boardService.insertNewBoard(newBoard);
+    }
+
+    @GetMapping("/play-music")
+    public BoardResponse findByBoardId(String boardId) {
+        return boardService.findById(boardId);
     }
 
     @GetMapping("list")

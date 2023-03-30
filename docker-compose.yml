@@ -20,7 +20,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: 1234
     volumes:
       # -v 옵션 (다렉토리 마운트 설정)
-      - /data/mongodb/data/db:/data/db
+      - ~/data:/data/db
 
   music_postgres14_proto:
     image: postgres:14

@@ -1,11 +1,9 @@
 package com.self.music.dto.response;
 
 import com.self.music.domain.Board;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.Instant;
 import java.util.List;
 
 public class BoardListResponse {
@@ -14,9 +12,23 @@ public class BoardListResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class BoardListRes {
-        private List<Board> boardList;
+        private List<BoardRes> boardList;
         private int totalPage;
         private Long totalElements;
     }
 
+    @Getter
+    @Setter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BoardRes {
+        private String id;
+        private Long userId;
+        private String userName;
+        private String title;
+        private Instant uploadDate;
+        private String uploadIp;
+        private String imgUrl;
+    }
 }

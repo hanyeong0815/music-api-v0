@@ -3,6 +3,7 @@ package com.self.music.service;
 import com.self.music.domain.Board;
 import com.self.music.domain.BoardRepo;
 import com.self.music.dto.response.BoardListResponse.BoardListRes;
+import com.self.music.dto.response.BoardListResponse.BoardRes;
 import com.self.music.dto.response.BoardResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,7 +37,19 @@ public class DefaultBoardService implements BoardService{
 
     @Override
     public BoardListRes findAllPagination(PageRequest pageable) {
-        Page<Board> boardPage = boardRepo.findAll(pageable);
+        Page<BoardRes> boardPage = boardRepo.findAllBy(pageable);
+//        List<BoardRes> boardResList = boardPage.stream().map((board) -> {
+//            BoardRes boardRes = BoardRes.builder()
+//                    .boardId(board.getId())
+//                    .userId(board.getUserId())
+//                    .userName(board.getUserName())
+//                    .title(board.getTitle())
+//                    .uploadData(board.getUploadData())
+//                    .uploadIp(board.getUploadIp())
+//                    .imgUrl(board.getImgUrl())
+//                    .build();
+//            return boardRes;
+//        }).collect(Collectors.toList());
         BoardListRes res = new BoardListRes(boardPage.getContent(), boardPage.getTotalPages(), boardPage.getTotalElements());
         return res;
     }

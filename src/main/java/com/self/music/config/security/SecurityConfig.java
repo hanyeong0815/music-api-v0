@@ -2,6 +2,7 @@ package com.self.music.config.security;
 
 
 import com.self.music.authentication.CustomAuthenticationManager;
+import com.self.music.authentication.UserAuthenticationFilter;
 import com.self.music.authentication.token.JwtAuthenticationFilter;
 import com.self.music.authentication.token.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
@@ -23,11 +24,13 @@ import java.util.Arrays;
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
-    private final JwtAuthenticationFilter authenticationFilter;
+    private final UserAuthenticationFilter authenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     SecurityConfig(CustomAuthenticationManager userAuthenticationProvider, JwtTokenProvider jwtTokenProvider) {
+        jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtTokenProvider);
         AuthenticationManager providerManager = new ProviderManager(userAuthenticationProvider);
-        authenticationFilter = new JwtAuthenticationFilter(providerManager, jwtTokenProvider);
+        authenticationFilter = new UserAuthenticationFilter(providerManager);
     }
 
     @Bean
@@ -37,7 +40,8 @@ public class SecurityConfig {
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterAt(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterAt(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

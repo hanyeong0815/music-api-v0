@@ -31,26 +31,12 @@ public class DefaultBoardService implements BoardService{
     @Override
     public BoardResponse findById(String boardId) {
         Board board = boardRepo.findById(boardId).orElseThrow();
-        BoardResponse boardRes = new BoardResponse(board.getId(), board.getUserId(), board.getTitle(), board.getLyrics(), board.getMusicUrl(), board.getImgUrl(), board.getUploadDate());
-        return boardRes;
+        return new BoardResponse(board.getId(), board.getUserId(), board.getTitle(), board.getLyrics(), board.getMusicUrl(), board.getImgUrl(), board.getUploadDate());
     }
 
     @Override
     public BoardListRes findAllPagination(PageRequest pageable) {
         Page<BoardRes> boardPage = boardRepo.findAllBy(pageable);
-//        List<BoardRes> boardResList = boardPage.stream().map((board) -> {
-//            BoardRes boardRes = BoardRes.builder()
-//                    .boardId(board.getId())
-//                    .userId(board.getUserId())
-//                    .userName(board.getUserName())
-//                    .title(board.getTitle())
-//                    .uploadData(board.getUploadData())
-//                    .uploadIp(board.getUploadIp())
-//                    .imgUrl(board.getImgUrl())
-//                    .build();
-//            return boardRes;
-//        }).collect(Collectors.toList());
-        BoardListRes res = new BoardListRes(boardPage.getContent(), boardPage.getTotalPages(), boardPage.getTotalElements());
-        return res;
+        return new BoardListRes(boardPage.getContent(), boardPage.getTotalPages(), boardPage.getTotalElements());
     }
 }

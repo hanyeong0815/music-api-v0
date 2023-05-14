@@ -1,6 +1,5 @@
 package com.self.music.dto.response;
 
-import com.self.music.domain.Board;
 import lombok.*;
 
 import java.time.Instant;

@@ -3,6 +3,7 @@ package com.self.music.dto.request;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
 public class LoginDto {
     @Getter
     @Setter
+    @Builder
     public static class LoginRequest {
         private String username;
         private String password;

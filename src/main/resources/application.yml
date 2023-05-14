@@ -49,10 +49,7 @@ cloud:
 
 
 jwt:
-  public:
-    key: classpath:/key/app.pub
-  private:
-    key: classpath:/key/app.key
+  secret: VyCPKM1jTTYDtVBkQmy8lPlWdQYs4NAQDiHSDWoZIqs
 
 server:
   port: 8080

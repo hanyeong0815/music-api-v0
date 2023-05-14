@@ -27,8 +27,6 @@ public interface UsersRepo extends JpaRepository<Users, Long> {
     )
     int changePw(Long userId, String changedPw);
 
-    int deleteByUsername(String username);
-
     @Query(
             "select u.username from Users u where u.id = ?1"
     )

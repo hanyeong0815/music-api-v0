@@ -4,6 +4,7 @@ import com.self.music.domain.Users;
 import com.self.music.dto.request.ChangePwDto.ChangePwRequest;
 import com.self.music.dto.request.ChangePwDto.HasPwRequest;
 import com.self.music.dto.request.CheckPwDto.CheckPwRequest;
+import com.self.music.dto.request.LoginDto.LoginRequest;
 import com.self.music.dto.request.SignUpRequest.SignUpReq;
 import com.self.music.dto.response.JwtResponse;
 import com.self.music.dto.response.UsersResponse.UsersRes;
@@ -14,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -46,7 +46,7 @@ public class UserApi {
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(Authentication authentication) {
-        JwtResponse jwtResponse = authenticationService.issueUserJwt(authentication);
+        JwtResponse jwtResponse = userService.login(authentication);
         return ResponseEntity.ok(jwtResponse);
     }
 

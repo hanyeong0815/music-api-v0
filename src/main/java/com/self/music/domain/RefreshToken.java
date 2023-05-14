@@ -1,9 +1,6 @@
 package com.self.music.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import jakarta.persistence.*;
 import java.time.Instant;
@@ -11,6 +8,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "refresh_token",
         uniqueConstraints = {
                 @UniqueConstraint(name="uk_token", columnNames = "token")
@@ -21,6 +19,7 @@ import java.time.Instant;
         @Index(name = "idx_subject", columnList = "subject")
 })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

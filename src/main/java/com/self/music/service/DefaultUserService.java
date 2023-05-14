@@ -1,6 +1,7 @@
 package com.self.music.service;
 
 import com.self.music.authentication.token.CommonAuthenticationToken;
+import com.self.music.authentication.token.JwtTokenProvider;
 import com.self.music.authentication.token.UserAuthenticationToken;
 import com.self.music.core.error.Preconditions;
 import com.self.music.core.error.member.MemberErrorCode;
@@ -9,38 +10,26 @@ import com.self.music.domain.UsersRepo;
 import com.self.music.dto.request.ChangePwDto.ChangePwRequest;
 import com.self.music.dto.request.ChangePwDto.HasPwRequest;
 import com.self.music.dto.request.CheckPwDto.CheckPwRequest;
+import com.self.music.dto.response.JwtResponse;
 import com.self.music.dto.response.UsersResponse.UsersRes;
 import com.self.music.utills.password.PasswordEncoderFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class DefaultUserService implements UserDetailsService, UserService {
+public class DefaultUserService implements UserService {
     private final UsersRepo usersRepo;
+//    private final CustomAuthenticationManager customAuthenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoderFactory passwordEncoder;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        try {
-            Users users = usersRepo.findByUsername(username).orElseThrow();
-            return users;
-        } catch (NoSuchElementException e) {
-            throw new UsernameNotFoundException("해당하는 유저를 찾지 못하였습니다.");
-        }
-    }
 
     @Override
     public Authentication signUp(Users users) {
@@ -49,14 +38,17 @@ public class DefaultUserService implements UserDetailsService, UserService {
             return null;
         }
         Users newUser = usersRepo.save(users);
-        if (newUser == null) {
-            return null;
-        }
         Collection<? extends GrantedAuthority> roles = newUser.getRoles().stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-        Authentication auth = CommonAuthenticationToken.authenticated(UserAuthenticationToken.class, newUser.getUsername(), newUser.getPassword(), roles);
-        return auth;
+        return CommonAuthenticationToken.authenticated(UserAuthenticationToken.class, newUser.getUsername(), newUser.getPassword(), roles);
+    }
+
+    @Override
+    public JwtResponse login(Authentication authentication) {
+
+        // 3. 인증 정보를 기반으로 JWT 토큰 생성
+        return jwtTokenProvider.generateToken(authentication);
     }
 
     @Override

@@ -10,4 +10,6 @@ public interface RefreshTokenRedisRepo extends CrudRepository<RefreshTokenRedis,
     @Modifying
     @Query("update RefreshToken r set r.enabled = ?1 where r.subject = ?2")
     void updateEnabledBySubject(boolean b, String subject);
+
+    RefreshToken findByToken(String token);
 }

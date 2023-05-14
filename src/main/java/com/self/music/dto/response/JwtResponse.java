@@ -1,10 +1,10 @@
 package com.self.music.dto.response;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-public record JwtResponse(Long usr_id, String username, String access_token, String refresh_token, Long expired_in,
-                          Long refresh_expired_in, String token_type) {
+import java.util.Date;
+
+@Builder
+public record JwtResponse(Long usr_id, String username, String access_token, String refresh_token, Date expired_in,
+                          Date refresh_expired_in, String token_type) {
 }

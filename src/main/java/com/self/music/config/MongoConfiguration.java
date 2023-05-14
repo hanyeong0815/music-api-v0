@@ -26,6 +26,6 @@ public class MongoConfiguration extends AbstractMongoClientConfiguration {
 
     @Override
     protected String getDatabaseName() {
-        return "some-mongo";
+        return "music";
     }
 }

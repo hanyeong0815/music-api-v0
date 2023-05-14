@@ -23,6 +23,16 @@ services:
 #      # -v 옵션 (다렉토리 마운트 설정)
 #      - ./data:/data
 
+  mongo:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    deploy:
+      replicas: 1
+    volumes:
+      - mongodb-data:/data/db
+
   music_postgres14_proto:
     image: postgres:14
     container_name: music_postgres14_rdb_proto
@@ -59,3 +69,4 @@ services:
 
 volumes:
   preset_sticky_volume:
+  mongodb-data:

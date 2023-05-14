@@ -22,7 +22,6 @@ spring:
     redis:
       host: redis-12152.c290.ap-northeast-1-2.ec2.cloud.redislabs.com
       port: 12152
-      username: default
       password: music753951
 
     mongodb:

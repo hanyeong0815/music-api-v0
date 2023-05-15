@@ -1,6 +1,7 @@
 package com.self.music.controller;
 
 import com.self.music.domain.Board;
+import com.self.music.domain.RefreshTokenRedis;
 import com.self.music.domain.Users;
 import com.self.music.service.BoardService;
 import com.self.music.service.UserService;
@@ -25,5 +26,8 @@ public class TestApi {
 
     @GetMapping("board-all")
     public List<Board> findAllBoard() {return boardService.testFindAllBoard();}
+
+    @GetMapping("refresh-all")
+    public Iterable<RefreshTokenRedis> findAlllRefresh() {return userService.testFindAllRefreshToken();}
 
 }

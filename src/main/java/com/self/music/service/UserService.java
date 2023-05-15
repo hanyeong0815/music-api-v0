@@ -1,5 +1,6 @@
 package com.self.music.service;
 
+import com.self.music.domain.RefreshTokenRedis;
 import com.self.music.domain.Users;
 import com.self.music.dto.request.ChangePwDto.ChangePwRequest;
 import com.self.music.dto.request.ChangePwDto.HasPwRequest;
@@ -23,4 +24,5 @@ public interface UserService {
     boolean checkPw(CheckPwRequest req);
     String findUserNameById(Long userId);
 
+    Iterable<RefreshTokenRedis> testFindAllRefreshToken();
 }

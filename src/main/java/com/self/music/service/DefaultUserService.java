@@ -5,8 +5,7 @@ import com.self.music.authentication.token.JwtTokenProvider;
 import com.self.music.authentication.token.UserAuthenticationToken;
 import com.self.music.core.error.Preconditions;
 import com.self.music.core.error.member.MemberErrorCode;
-import com.self.music.domain.Users;
-import com.self.music.domain.UsersRepo;
+import com.self.music.domain.*;
 import com.self.music.dto.request.ChangePwDto.ChangePwRequest;
 import com.self.music.dto.request.ChangePwDto.HasPwRequest;
 import com.self.music.dto.request.CheckPwDto.CheckPwRequest;
@@ -27,9 +26,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DefaultUserService implements UserService {
     private final UsersRepo usersRepo;
-//    private final CustomAuthenticationManager customAuthenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoderFactory passwordEncoder;
+    private final RefreshTokenRepo refreshTokenRepo;
+    private final RefreshTokenRedisRepo refreshTokenRedisRepo;
 
     @Override
     public Authentication signUp(Users users) {
@@ -71,8 +71,7 @@ public class DefaultUserService implements UserService {
     @Override
     public String findIdFiltering(String name, String email) {
         String username = usersRepo.findByNameAndEmail(name, email).getUsername();
-        String filteringUsername = username.replace(username.substring(1, 3), "**");
-        return filteringUsername;
+        return username.replace(username.substring(1, 3), "**");
     }
 
     @Override
@@ -100,8 +99,12 @@ public class DefaultUserService implements UserService {
     @Override
     public boolean checkPw(CheckPwRequest req) {
         Users users = usersRepo.findById(req.getUserId()).get();
-        boolean matchedPw = passwordEncoder.defaultEncoder().matches(req.getPassword(), users.getPassword());
-        return matchedPw;
+        return passwordEncoder.defaultEncoder().matches(req.getPassword(), users.getPassword());
+    }
+
+    @Override
+    public Iterable<RefreshTokenRedis> testFindAllRefreshToken() {
+        return refreshTokenRedisRepo.findAll();
     }
 
     @Override

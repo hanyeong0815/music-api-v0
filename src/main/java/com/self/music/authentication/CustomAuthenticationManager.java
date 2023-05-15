@@ -2,9 +2,12 @@ package com.self.music.authentication;
 
 import com.self.music.authentication.token.CommonAuthenticationToken;
 import com.self.music.authentication.token.UserAuthenticationToken;
+import com.self.music.core.error.Preconditions;
+import com.self.music.core.error.member.MemberErrorCode;
 import com.self.music.service.CustomUserDetailsService;
 import com.self.music.utills.password.PasswordEncoderFactory;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -21,8 +24,13 @@ public class CustomAuthenticationManager implements AuthenticationProvider {
     private final PasswordEncoderFactory pwEncoder;
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(@NotNull Authentication authentication) throws AuthenticationException {
         UserDetails user = defaultUserService.loadUserByUsername(authentication.getName());
+
+        Preconditions.validate(
+                user != null,
+                MemberErrorCode.NO_SUCH_USER
+        );
 
         boolean isAuthenticated = pwEncoder.defaultEncoder().matches((String)authentication.getCredentials(), user.getPassword());
 

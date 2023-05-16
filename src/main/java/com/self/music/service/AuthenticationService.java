@@ -1,10 +1,8 @@
 package com.self.music.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.self.music.dto.request.TokenReissueRequest;
+import org.springframework.http.ResponseEntity;
 
-@Service
-@RequiredArgsConstructor
-public class AuthenticationService {
-
+public interface AuthenticationService {
+    ResponseEntity<?> reissue(TokenReissueRequest req);
 }

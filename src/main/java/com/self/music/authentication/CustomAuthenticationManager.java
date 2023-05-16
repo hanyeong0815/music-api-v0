@@ -1,7 +1,7 @@
 package com.self.music.authentication;
 
-import com.self.music.authentication.token.CommonAuthenticationToken;
-import com.self.music.authentication.token.UserAuthenticationToken;
+import com.self.music.utills.token.CommonAuthenticationToken;
+import com.self.music.utills.token.UserAuthenticationToken;
 import com.self.music.core.error.Preconditions;
 import com.self.music.core.error.member.MemberErrorCode;
 import com.self.music.service.CustomUserDetailsService;

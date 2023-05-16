@@ -1,34 +1,43 @@
 package com.self.music.domain;
 
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
-import java.time.Instant;
+import java.util.Date;
 
 @Getter
 @RedisHash(value = "refresh", timeToLive = 2628000L)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RefreshTokenRedis {
     @Id
     private Long id;
 
+    @Indexed
     private String token;
 
     private String subject;
 
     private Boolean enabled;
 
-    private Instant createdAt;
+    private Date createdAt;
 
-    private Instant expiredAt;
+    private Date expiredAt;
 
     private String replacedBy;
 
-    public RefreshTokenRedis(String subject, String token, Instant now, Long expiry){
-        this.subject = subject;
+    public RefreshTokenRedis(Long id, String token, String subject, Boolean enabled, Date createdAt, Date expiredAt) {
+        this.id = id;
         this.token = token;
-        enabled = true;
-        createdAt = now;
-        expiredAt = now.plusSeconds(expiry);
+        this.subject = subject;
+        this.enabled = enabled;
+        this.createdAt = createdAt;
+        this.expiredAt = expiredAt;
     }
 }

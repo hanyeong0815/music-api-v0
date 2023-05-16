@@ -3,8 +3,7 @@ package com.self.music.controller;
 import com.self.music.domain.Board;
 import com.self.music.domain.RefreshTokenRedis;
 import com.self.music.domain.Users;
-import com.self.music.service.BoardService;
-import com.self.music.service.UserService;
+import com.self.music.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,18 +15,17 @@ import java.util.List;
 @RequestMapping("/test")
 @RequiredArgsConstructor
 public class TestApi {
-    private final UserService userService;
-    private final BoardService boardService;
+    private final TestService testService;
 
     @GetMapping("user-all")
     public List<Users> findAll() {
-        return userService.testFindAllUsers();
+        return testService.testFindAllUsers();
     }
 
     @GetMapping("board-all")
-    public List<Board> findAllBoard() {return boardService.testFindAllBoard();}
+    public List<Board> findAllBoard() {return testService.testFindAllBoard();}
 
     @GetMapping("refresh-all")
-    public Iterable<RefreshTokenRedis> findAlllRefresh() {return userService.testFindAllRefreshToken();}
+    public List<RefreshTokenRedis> findAllRefresh() {return testService.testFindAllRefreshToken();}
 
 }

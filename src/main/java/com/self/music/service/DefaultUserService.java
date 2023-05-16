@@ -1,8 +1,9 @@
 package com.self.music.service;
 
-import com.self.music.authentication.token.CommonAuthenticationToken;
+import com.amazonaws.services.kms.model.NotFoundException;
+import com.self.music.utills.token.CommonAuthenticationToken;
 import com.self.music.authentication.token.JwtTokenProvider;
-import com.self.music.authentication.token.UserAuthenticationToken;
+import com.self.music.utills.token.UserAuthenticationToken;
 import com.self.music.core.error.Preconditions;
 import com.self.music.core.error.member.MemberErrorCode;
 import com.self.music.domain.*;
@@ -19,7 +20,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,8 +28,6 @@ public class DefaultUserService implements UserService {
     private final UsersRepo usersRepo;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoderFactory passwordEncoder;
-    private final RefreshTokenRepo refreshTokenRepo;
-    private final RefreshTokenRedisRepo refreshTokenRedisRepo;
 
     @Override
     public Authentication signUp(Users users) {
@@ -53,7 +51,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public UsersRes usersInfo(String username) {
-        Users users = usersRepo.findByUsername(username).get();
+        Users users = usersRepo.findByUsername(username).orElseThrow(() -> new NotFoundException("사용자 정보가 없습니다."));
         return UsersRes.toResFrom(users);
     }
 
@@ -92,19 +90,9 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public List<Users> testFindAllUsers() {
-        return usersRepo.findAll();
-    }
-
-    @Override
     public boolean checkPw(CheckPwRequest req) {
-        Users users = usersRepo.findById(req.getUserId()).get();
+        Users users = usersRepo.findById(req.getUserId()).orElseThrow();
         return passwordEncoder.defaultEncoder().matches(req.getPassword(), users.getPassword());
-    }
-
-    @Override
-    public Iterable<RefreshTokenRedis> testFindAllRefreshToken() {
-        return refreshTokenRedisRepo.findAll();
     }
 
     @Override

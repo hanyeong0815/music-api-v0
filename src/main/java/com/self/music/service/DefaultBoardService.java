@@ -10,8 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class DefaultBoardService implements BoardService{
@@ -21,11 +19,6 @@ public class DefaultBoardService implements BoardService{
     public boolean insertNewBoard(Board toEntity) {
         boardRepo.save(toEntity);
         return true;
-    }
-
-    @Override
-    public List<Board> testFindAllBoard() {
-        return boardRepo.findAll();
     }
 
     @Override

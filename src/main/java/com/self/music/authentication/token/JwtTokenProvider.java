@@ -1,6 +1,8 @@
 package com.self.music.authentication.token;
 
 
+import com.self.music.domain.RefreshTokenRedis;
+import com.self.music.domain.RefreshTokenRedisRepo;
 import com.self.music.domain.Users;
 import com.self.music.domain.UsersRepo;
 import com.self.music.dto.response.JwtResponse;
@@ -31,12 +33,14 @@ public class JwtTokenProvider {
 
     private final Key key;
     private final UsersRepo usersRepo;
+    private final RefreshTokenRedisRepo refreshTokenRepo;
 
     private static final Long EXPIRY = 3600000L;
     private static final Long REFRESH_EXPIRY = 2628000000L;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, UsersRepo usersRepo) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, UsersRepo usersRepo, RefreshTokenRedisRepo refreshTokenRepo) {
         this.usersRepo = usersRepo;
+        this.refreshTokenRepo = refreshTokenRepo;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -64,9 +68,18 @@ public class JwtTokenProvider {
         // Refresh Token 생성
         Date refreshTokenExpiresIn = new Date(now + REFRESH_EXPIRY);
         String refreshToken = Jwts.builder()
+                .claim("auth", authorities)
                 .setExpiration(refreshTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+
+        refreshTokenRepo.save(RefreshTokenRedis.builder()
+                        .token(refreshToken)
+                        .createdAt(new Date())
+                        .enabled(true)
+                        .expiredAt(refreshTokenExpiresIn)
+                        .subject(authentication.getName())
+                .build());
 
         Users userInfo = usersRepo.findByUsername(authentication.getName()).orElseThrow();
 

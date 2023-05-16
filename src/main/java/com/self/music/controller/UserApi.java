@@ -4,11 +4,9 @@ import com.self.music.domain.Users;
 import com.self.music.dto.request.ChangePwDto.ChangePwRequest;
 import com.self.music.dto.request.ChangePwDto.HasPwRequest;
 import com.self.music.dto.request.CheckPwDto.CheckPwRequest;
-import com.self.music.dto.request.LoginDto.LoginRequest;
 import com.self.music.dto.request.SignUpRequest.SignUpReq;
 import com.self.music.dto.response.JwtResponse;
 import com.self.music.dto.response.UsersResponse.UsersRes;
-import com.self.music.service.AuthenticationService;
 import com.self.music.service.UserService;
 import com.self.music.utills.password.PasswordEncoderFactory;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserApi {
     private final UserService userService;
-    private final AuthenticationService authenticationService;
     private final PasswordEncoderFactory encoder;
 
     @PostMapping("/signup")

@@ -1,4 +1,4 @@
-package com.self.music.authentication.token;
+package com.self.music.utills.token;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationServiceException;

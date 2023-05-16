@@ -7,7 +7,6 @@ import com.self.music.domain.RefreshTokenRedisRepo;
 import com.self.music.dto.request.TokenReissueRequest;
 import com.self.music.dto.response.JwtResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ public class DefaultAuthenticationService implements AuthenticationService{
     private final RefreshTokenRedisRepo refreshTokenRedisRepo;
 
     @Override
-    public ResponseEntity<?> reissue(TokenReissueRequest req) {
+    public JwtResponse reissue(TokenReissueRequest req) {
         Authentication authentication = jwtTokenProvider.getAuthentication(req.accessToken());
 
         boolean hasRefreshToken = refreshTokenRedisRepo.findByToken(req.refreshToken()).isEmpty();
@@ -27,8 +26,6 @@ public class DefaultAuthenticationService implements AuthenticationService{
                 TokenErrorCode.NO_SUCH_REFRESH_TOKEN
         );
 
-        JwtResponse jwtResponse = jwtTokenProvider.generateToken(authentication);
-
-        return ResponseEntity.ok(jwtResponse);
+        return jwtTokenProvider.generateToken(authentication);
     }
 }

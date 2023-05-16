@@ -1,8 +1,8 @@
 package com.self.music.service;
 
 import com.self.music.dto.request.TokenReissueRequest;
-import org.springframework.http.ResponseEntity;
+import com.self.music.dto.response.JwtResponse;
 
 public interface AuthenticationService {
-    ResponseEntity<?> reissue(TokenReissueRequest req);
+    JwtResponse reissue(TokenReissueRequest req);
 }

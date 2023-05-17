@@ -5,7 +5,8 @@ import com.self.music.core.error.ErrorCode;
 import java.text.MessageFormat;
 
 public enum TokenErrorCode implements ErrorCode {
-    NO_SUCH_REFRESH_TOKEN("토큰이 존재하지 않습니다.");
+    NO_SUCH_REFRESH_TOKEN("토큰이 존재하지 않습니다."),
+    EXPIRED_TOKEN("만료된 토큰입니다.");
 
     public final String MESSAGE;
 

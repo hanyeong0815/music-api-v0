@@ -5,6 +5,12 @@ spring:
     password: ${POSTGRES_DB_PASSWORD:music753951}
     driver-class-name: org.postgresql.Driver
 
+    hikari:
+      connection-timeout: 10000
+      idle-timeout: 10000
+      validation-timeout: 10000
+      max-lifetime: 580000
+
   jpa:
     hibernate:
       ddl-auto: validate
@@ -20,7 +26,7 @@ spring:
 
   data:
     redis:
-      host: music-backend-redis-001.jilffz.0001.apn2.cache.amazonaws.com
+      host: localhost
       port: 6379
 
     mongodb:

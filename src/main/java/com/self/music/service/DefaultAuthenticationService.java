@@ -1,14 +1,15 @@
 package com.self.music.service;
 
 import com.self.music.authentication.token.JwtTokenProvider;
-import com.self.music.core.error.Preconditions;
-import com.self.music.core.error.Token.TokenErrorCode;
 import com.self.music.domain.RefreshTokenRedisRepo;
 import com.self.music.dto.request.TokenReissueRequest;
 import com.self.music.dto.response.JwtResponse;
+import com.self.music.exception.token.TokenErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+
+import static com.self.music.common.util.Preconditions.validate;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class DefaultAuthenticationService implements AuthenticationService{
         Authentication authentication = jwtTokenProvider.getAuthentication(req.accessToken());
 
         boolean hasRefreshToken = refreshTokenRedisRepo.findByToken(req.refreshToken()).isEmpty();
-        Preconditions.validate(
+        validate(
                 !hasRefreshToken,
                 TokenErrorCode.NO_SUCH_REFRESH_TOKEN
         );

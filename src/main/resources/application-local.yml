@@ -30,8 +30,8 @@ spring:
       port: 6379
 
     mongodb:
-      uri: mongodb+srv://yoehadu815:music753951@music-backend-nosql.eduiwoa.mongodb.net/music?retryWrites=true&w=majority
-      database: music
+      uri: mongodb://127.0.0.1:27017/some-mongo?authSource=admin
+      database: some-mongo
 
   servlet:
     multipart:

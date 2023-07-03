@@ -1,10 +1,11 @@
-package com.self.music.core.error;
+package com.self.music.common.util;
+
+import com.self.music.common.support.exception.ErrorCode;
 
 import java.text.MessageFormat;
 import java.util.Objects;
 
 public final class Preconditions {
-
     public static <T> T notNull(T obj) { return Objects.requireNonNull(obj); }
 
     public static void require(boolean expression) {
@@ -43,11 +44,15 @@ public final class Preconditions {
         }
     }
 
-    public static void validate(boolean expression, ErrorCode errorCode) {
-        if(!expression) {
-            // ErrorCode -> MemberErrorCode: new MemberException(...);
-            // ErrorCode -> BoardErrorCode: new BoardException(...);
+    public static void validate(boolean condition, ErrorCode errorCode) {
+        if(!condition) {
             throw errorCode.defaultException();
+        }
+    }
+
+    public static void validate(boolean condition, ErrorCode errorCode, Throwable cause) {
+        if(!condition) {
+            throw errorCode.defaultException(cause);
         }
     }
 }

@@ -1,13 +1,12 @@
 package com.self.music.controller;
 
-import com.self.music.core.error.Preconditions;
-import com.self.music.core.error.board.BoardErrorCode;
-import com.self.music.core.error.member.MemberErrorCode;
 import com.self.music.domain.Board;
 import com.self.music.domain.enums.FileType;
 import com.self.music.dto.request.BoardUpload.BoardUploadRequest;
 import com.self.music.dto.response.BoardListResponse.BoardListRes;
 import com.self.music.dto.response.BoardResponse;
+import com.self.music.exception.board.BoardErrorCode;
+import com.self.music.exception.user.UserErrorCode;
 import com.self.music.service.AwsS3Service;
 import com.self.music.service.BoardService;
 import com.self.music.service.UserService;
@@ -19,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
+
+import static com.self.music.common.util.Preconditions.validate;
 
 @RestController
 @RequestMapping("board")
@@ -34,15 +35,15 @@ public class BoardApi {
                                @RequestPart(value = "music", required = false) MultipartFile music,
                                @RequestPart(value = "cover", required = false) MultipartFile cover,
                                HttpServletRequest request) {
-        Preconditions.validate(
+        validate(
                 data.getUserId() != null || data.getTitle() != null || music != null,
                 BoardErrorCode.INVALID_BOARD
         );
-
+//
         String userName = userService.findUserNameById(data.getUserId());
-        Preconditions.validate(
+        validate(
                 userName != null,
-                MemberErrorCode.NO_SUCH_USER
+                UserErrorCode.NO_SUCH_USER
         );
 
         Instant now = Instant.now();

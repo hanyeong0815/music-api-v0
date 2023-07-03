@@ -1,11 +1,10 @@
 package com.self.music.service;
 
 import com.amazonaws.services.kms.model.NotFoundException;
+import com.self.music.exception.user.UserErrorCode;
 import com.self.music.utills.token.CommonAuthenticationToken;
 import com.self.music.authentication.token.JwtTokenProvider;
 import com.self.music.utills.token.UserAuthenticationToken;
-import com.self.music.core.error.Preconditions;
-import com.self.music.core.error.member.MemberErrorCode;
 import com.self.music.domain.*;
 import com.self.music.dto.request.ChangePwDto.ChangePwRequest;
 import com.self.music.dto.request.ChangePwDto.HasPwRequest;
@@ -21,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
+
+import static com.self.music.common.util.Preconditions.validate;
 
 @Service
 @RequiredArgsConstructor
@@ -57,9 +58,9 @@ public class DefaultUserService implements UserService {
 
     @Override
     public boolean deleteUser(Long userId) {
-        Preconditions.validate(
+        validate(
                 usersRepo.findById(userId).isPresent(),
-                MemberErrorCode.NO_SUCH_USER
+                UserErrorCode.NO_SUCH_USER
         );
 
         usersRepo.deleteById(userId);

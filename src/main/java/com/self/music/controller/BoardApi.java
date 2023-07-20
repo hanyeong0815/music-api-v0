@@ -39,7 +39,7 @@ public class BoardApi {
                 data.getUserId() != null || data.getTitle() != null || music != null,
                 BoardErrorCode.INVALID_BOARD
         );
-//
+
         String userName = userService.findUserNameById(data.getUserId());
         validate(
                 userName != null,

@@ -6,6 +6,7 @@ import com.self.music.domain.Users;
 import com.self.music.dto.response.TestResponse;
 import com.self.music.service.TestService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,9 +31,14 @@ public class TestApi {
     @GetMapping("refresh-all")
     public List<RefreshTokenRedis> findAllRefresh() {return testService.testFindAllRefreshToken();}
 
-    @GetMapping("/test1")
-    public TestResponse findBetweenDate() {
-        Instant now = Instant.now();
-        return testService.testFindAllBetweenDate(now);
+//    @GetMapping("/test1")
+//    public TestResponse findBetweenDate() {
+//        Instant now = Instant.now();
+//        return testService.testFindAllBetweenDate(now);
+//    }
+
+    @DeleteMapping("delete/token")
+    public void testDeleteToken(String token) {
+        testService.testDeleteByToken(token);
     }
 }

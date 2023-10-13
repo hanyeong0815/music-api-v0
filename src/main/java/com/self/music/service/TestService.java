@@ -15,5 +15,7 @@ public interface TestService {
 
     List<RefreshTokenRedis> testFindAllRefreshToken();
 
-    TestResponse testFindAllBetweenDate(Instant now);
+//    TestResponse testFindAllBetweenDate(Instant now);
+
+    void testDeleteByToken(String token);
 }

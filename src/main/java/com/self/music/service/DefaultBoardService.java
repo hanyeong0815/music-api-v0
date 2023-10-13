@@ -8,6 +8,7 @@ import com.self.music.dto.response.BoardResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,7 +29,7 @@ public class DefaultBoardService implements BoardService{
     }
 
     @Override
-    public BoardListRes findAllPagination(PageRequest pageable) {
+    public BoardListRes findAllPagination(Pageable pageable) {
         Page<BoardRes> boardPage = boardRepo.findAllBy(pageable);
         return new BoardListRes(boardPage.getContent(), boardPage.getTotalPages(), boardPage.getTotalElements());
     }

@@ -30,8 +30,10 @@ spring:
       port: 6379
 
     mongodb:
-      uri: mongodb://127.0.0.1:27017/some-mongo?authSource=admin
-      database: some-mongo
+      uri: mongodb://localhost:27017/some-mongo?authSource=admin
+      host: localhost
+      port: 27017
+      authentication-database:
 
   servlet:
     multipart:

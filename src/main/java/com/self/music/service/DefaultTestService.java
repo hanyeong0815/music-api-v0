@@ -3,6 +3,7 @@ package com.self.music.service;
 import com.self.music.domain.*;
 import com.self.music.dto.response.Board1;
 import com.self.music.dto.response.TestResponse;
+import com.self.music.exception.token.TokenErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,20 +33,28 @@ public class DefaultTestService implements TestService{
         return refreshTokenRedisRepo.findAll();
     }
 
+//    @Override
+//    public TestResponse testFindAllBetweenDate(Instant now) {
+//        Instant thr = now.minus(Duration.ofDays(90));
+//        Instant six = now.minus(Duration.ofDays(180));
+//        System.out.println(thr);
+//        System.out.println(six);
+//        List<Board> boards = boardRepo.findByUploadDateBetween(thr);
+//        List<Board> boards1 = boardRepo.findByUploadDateBetween(six);
+//        return TestResponse.builder().boards1(boards.stream().map((board)->{
+//            Board1 board1 = Board1.builder().id(board.getId()).uploadDate(board.getUploadDate()).userId(board.getUserId()).build();
+//            return board1;
+//        }).collect(Collectors.toList())).boards2(boards1.stream().map((board)->{
+//            Board1 board1 = Board1.builder().id(board.getId()).uploadDate(board.getUploadDate()).userId(board.getUserId()).build();
+//            return board1;
+//        }).collect(Collectors.toList())).build();
+//    }
+
     @Override
-    public TestResponse testFindAllBetweenDate(Instant now) {
-        Instant thr = now.minus(Duration.ofDays(90));
-        Instant six = now.minus(Duration.ofDays(180));
-        System.out.println(thr);
-        System.out.println(six);
-        List<Board> boards = boardRepo.findByUploadDateBetween(thr);
-        List<Board> boards1 = boardRepo.findByUploadDateBetween(six);
-        return TestResponse.builder().boards1(boards.stream().map((board)->{
-            Board1 board1 = Board1.builder().id(board.getId()).uploadDate(board.getUploadDate()).userId(board.getUserId()).build();
-            return board1;
-        }).collect(Collectors.toList())).boards2(boards1.stream().map((board)->{
-            Board1 board1 = Board1.builder().id(board.getId()).uploadDate(board.getUploadDate()).userId(board.getUserId()).build();
-            return board1;
-        }).collect(Collectors.toList())).build();
+    public void testDeleteByToken(String token) {
+        RefreshTokenRedis refreshToken = refreshTokenRedisRepo.findByToken(token).orElseThrow(
+                TokenErrorCode.NO_SUCH_REFRESH_TOKEN::defaultException
+        );
+        refreshTokenRedisRepo.deleteById(refreshToken.getId().toString());
     }
 }

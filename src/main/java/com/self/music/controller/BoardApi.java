@@ -13,6 +13,8 @@ import com.self.music.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,13 +38,13 @@ public class BoardApi {
                                @RequestPart(value = "cover", required = false) MultipartFile cover,
                                HttpServletRequest request) {
         validate(
-                data.getUserId() != null || data.getTitle() != null || music != null,
+                data.getUserId() == null || data.getTitle() == null || music == null,
                 BoardErrorCode.INVALID_BOARD
         );
 
         String userName = userService.findUserNameById(data.getUserId());
         validate(
-                userName != null,
+                userName == null,
                 UserErrorCode.NO_SUCH_USER
         );
 
@@ -74,8 +76,8 @@ public class BoardApi {
     }
 
     @GetMapping("list")
-    public BoardListRes findAllBoard (int page) {
-        PageRequest pageable = PageRequest.of(page, 10);
+    public BoardListRes findAllBoard (@PageableDefault(size = 10)Pageable pageable) {
+        pageable = pageable.previousOrFirst();
         return boardService.findAllPagination(pageable);
     }
 }

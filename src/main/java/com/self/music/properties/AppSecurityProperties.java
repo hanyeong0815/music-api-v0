@@ -1,6 +1,5 @@
 package com.self.music.properties;
 
-import com.self.music.config.CommonPropertiesScanConfig.YamlPropertySourceFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;

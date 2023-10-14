@@ -63,31 +63,21 @@ allprojects{
 }
 subprojects{
 	dependencies {
-		implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-		implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-		implementation 'org.springframework.boot:spring-boot-starter-security'
 		implementation 'org.springframework.boot:spring-boot-starter-validation'
 		implementation 'org.springframework.boot:spring-boot-starter-web'
-		implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
-		implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
-		implementation 'org.flywaydb:flyway-core:9.16.0'
-		implementation 'org.jetbrains:annotations:24.0.1'
-
-		compileOnly 'org.projectlombok:lombok'
 		developmentOnly 'org.springframework.boot:spring-boot-devtools'
-		runtimeOnly 'org.postgresql:postgresql'
 
 		annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+		implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+		implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+
+		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 		testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 		testImplementation 'org.springframework.security:spring-security-test'
-
-		// jwt
-		implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-		implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
-		implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	}
 }
 
@@ -112,6 +102,13 @@ project(mongoCoreModule) {
 	}
 }
 
+project(redisCoreModule) {
+	dependencies {
+		implementation commonProject
+		api 'org.springframework.boot:spring-boot-starter-data-redis'
+	}
+}
+
 project(globalExceptionHandlerCoreModule) {
 	dependencies {
 		implementation commonProject
@@ -131,11 +128,95 @@ project(securityModule) {
 	dependencies {
 		implementation commonProject
 
-		implementation 'org.jetbrains:annotations:24.0.1'
-		implementation 'org.springframework.boot:spring-boot-starter-security'
+		api 'org.jetbrains:annotations:24.0.1'
+		api 'org.springframework.boot:spring-boot-starter-security'
 		implementation 'org.springframework.boot:spring-boot'
 
 		implementation 'com.google.code.gson:gson:2.10.1'
 
+	}
+}
+
+// ============================================== member-service
+project(memberService) {
+	dependencies {
+		implementation commonProject
+		api project(securityModule)
+		implementation project(globalExceptionHandlerCoreModule)
+		api project(memberApplicationModule)
+		api project(memberRdbAdapter)
+
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+		// GSON
+		testImplementation 'com.google.code.gson:gson:2.10.1'
+
+		api 'net.devh:grpc-client-spring-boot-starter:2.14.0.RELEASE'
+		api 'net.devh:grpc-spring-boot-starter:2.14.0.RELEASE'
+	}
+
+	bootJar {
+		enabled = true
+	}
+}
+
+project(memberDomain) {
+	dependencies {
+		implementation commonProject
+
+		// GSON
+		implementation 'com.google.code.gson:gson:2.10.1'
+	}
+}
+
+project(memberApplicationModule) {
+	dependencies {
+		implementation commonProject
+		api project(memberDomain)
+		api project(memberReadModels)
+		api project(securityModule)
+
+		implementation 'org.springframework.boot:spring-boot-starter-security'
+		implementation 'org.jetbrains:annotations:24.0.1'
+
+		// GSON
+		implementation 'com.google.code.gson:gson:2.10.1'
+
+		// jwt
+		implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+		implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+		implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+	}
+}
+
+project(memberRdbAdapter) {
+	dependencies {
+		implementation commonProject
+		api project(securityModule)
+		api project(jpaCoreModule)
+		api project(memberApplicationModule)
+
+		implementation 'org.flywaydb:flyway-core:9.16.0'
+
+		runtimeOnly 'org.postgresql:postgresql'
+
+		// Map Struct
+		implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+		annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+		annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+	}
+}
+
+project(memberRedisAdapter) {
+	dependencies {
+		implementation commonProject
+		api project(redisCoreModule)
+		api project(memberApplicationModule)
+
+		// Map Struct
+		implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+		annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+		annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 	}
 }

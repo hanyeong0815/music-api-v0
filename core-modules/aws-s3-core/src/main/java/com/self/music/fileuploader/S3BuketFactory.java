@@ -1,6 +1,6 @@
 package com.self.music.fileuploader;
 
-import com.self.music.domain.enums.FileType;
+import com.self.music.fileuploader.type.FileType;
 
 public class S3BuketFactory {
     public static S3Buket get(FileType fileType) {

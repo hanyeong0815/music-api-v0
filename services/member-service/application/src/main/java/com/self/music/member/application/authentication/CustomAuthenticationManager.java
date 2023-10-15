@@ -34,19 +34,20 @@ public class CustomAuthenticationManager implements AuthenticationProvider {
                 MemberErrorCode.NO_SUCH_USER
         );
 
-        boolean isAuthenticated = pwEncoder.matches((String)authentication.getCredentials(), user.getPassword());
+        boolean isAuthenticated = pwEncoder.matches((String) authentication.getCredentials(), user.getPassword());
 
-        if (isAuthenticated) {
-            authentication = CommonAuthenticationToken
-                    .authenticated(
-                            UserAuthenticationToken.class,
-                            authentication.getName(),
-                            user,
-                            user.getAuthorities()
-                    );
-            ((CommonAuthenticationToken)authentication).eraseCredentials();
-            return authentication;
-        } else throw new BadCredentialsException("wrong authentication information");
+        if (!isAuthenticated) {
+         throw new BadCredentialsException("wrong authentication information");
+        }
+        authentication = CommonAuthenticationToken
+                .authenticated(
+                        UserAuthenticationToken.class,
+                        authentication.getName(),
+                        user,
+                        user.getAuthorities()
+                );
+        ((CommonAuthenticationToken)authentication).eraseCredentials();
+        return authentication;
     }
 
     @Override

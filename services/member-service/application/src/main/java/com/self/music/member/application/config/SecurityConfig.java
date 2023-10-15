@@ -2,6 +2,8 @@ package com.self.music.member.application.config;
 
 import com.self.music.member.application.authentication.CustomAuthenticationManager;
 import com.self.music.member.application.authentication.UserAuthenticationFilter;
+import com.self.music.member.application.authentication.token.JwtAuthenticationFilter;
+import com.self.music.member.application.authentication.token.JwtTokenProvider;
 import com.self.music.passwordEncoder.PasswordEncoderFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +37,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .headers((t) -> t.frameOptions().disable())
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

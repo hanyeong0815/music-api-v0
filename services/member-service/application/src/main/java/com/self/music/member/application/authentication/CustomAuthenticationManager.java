@@ -37,7 +37,13 @@ public class CustomAuthenticationManager implements AuthenticationProvider {
         boolean isAuthenticated = pwEncoder.matches((String)authentication.getCredentials(), user.getPassword());
 
         if (isAuthenticated) {
-            authentication = CommonAuthenticationToken.authenticated(UserAuthenticationToken.class, authentication.getName(), user, user.getAuthorities());
+            authentication = CommonAuthenticationToken
+                    .authenticated(
+                            UserAuthenticationToken.class,
+                            authentication.getName(),
+                            user,
+                            user.getAuthorities()
+                    );
             ((CommonAuthenticationToken)authentication).eraseCredentials();
             return authentication;
         } else throw new BadCredentialsException("wrong authentication information");

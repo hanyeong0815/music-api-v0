@@ -7,6 +7,8 @@ import com.self.music.member.rdb.mapper.MemberEntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class MemberPersistence implements MemberRepository {
@@ -19,5 +21,11 @@ public class MemberPersistence implements MemberRepository {
         return mapper.toDomain(
                 repository.save(memberEntity)
         );
+    }
+
+    @Override
+    public Optional<Member> findByUsername(String username) {
+        return repository.findByUsername(username)
+                .map(mapper::toDomain);
     }
 }

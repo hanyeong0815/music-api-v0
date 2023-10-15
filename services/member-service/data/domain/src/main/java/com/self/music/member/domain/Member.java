@@ -1,6 +1,6 @@
 package com.self.music.member.domain;
 
-import com.self.music.member.domain.type.GenderType;
+import com.self.music.member.domain.type.MemberStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -16,9 +16,6 @@ public class Member {
     public UUID id;
     public String username;
     public String password;
-    public String email;
-    public String name;
-    public String nickname;
-    public GenderType genderType;
+    public MemberStatus status;
     public List<String> roles = new ArrayList<>();
 }

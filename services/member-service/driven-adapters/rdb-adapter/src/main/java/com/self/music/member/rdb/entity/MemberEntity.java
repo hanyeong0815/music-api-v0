@@ -1,7 +1,7 @@
 package com.self.music.member.rdb.entity;
 
 import com.self.music.jpa.UuidBaseEntity;
-import com.self.music.member.domain.type.GenderType;
+import com.self.music.member.domain.type.MemberStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,11 +29,8 @@ import static com.self.music.member.rdb.support.MemberSchemaConstants.TB_MEMBER;
 public class MemberEntity extends UuidBaseEntity implements UserDetails {
     public String username;
     public String password;
-    public String email;
-    public String name;
-    public String nickname;
     @Enumerated(EnumType.STRING)
-    public GenderType genderType;
+    public MemberStatus status;
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     public List<String> roles = new ArrayList<>();

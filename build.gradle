@@ -220,3 +220,75 @@ project(memberRedisAdapter) {
 		annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 	}
 }
+
+// ============================================== member-service
+project(profileService) {
+	dependencies {
+		implementation commonProject
+		implementation project(globalExceptionHandlerCoreModule)
+		api project(profileApplication)
+		api project(profileRdbAdapter)
+		api project(profileInternalApiAdapter)
+
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+		// GSON
+		testImplementation 'com.google.code.gson:gson:2.10.1'
+
+		api 'net.devh:grpc-client-spring-boot-starter:2.14.0.RELEASE'
+		api 'net.devh:grpc-spring-boot-starter:2.14.0.RELEASE'
+	}
+
+	bootJar {
+		enabled = true
+	}
+}
+
+project(profileDomain) {
+	dependencies {
+		implementation commonProject
+
+		// GSON
+		implementation 'com.google.code.gson:gson:2.10.1'
+	}
+}
+
+project(profileApplication) {
+	dependencies {
+		implementation commonProject
+		api project(profileDomain)
+		api project(profilereadModels)
+
+		// GSON
+		implementation 'com.google.code.gson:gson:2.10.1'
+	}
+}
+
+project(profileRdbAdapter) {
+	dependencies {
+		implementation commonProject
+		api project(jpaCoreModule)
+		api project(profileApplication)
+
+		implementation 'org.flywaydb:flyway-core:9.16.0'
+
+		runtimeOnly 'org.postgresql:postgresql'
+
+		// Map Struct
+		implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+		annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+		annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+	}
+}
+
+project(profileInternalApiAdapter) {
+	dependencies {
+		implementation commonProject
+		implementation project(profileApplication)
+
+		implementation 'org.springframework.boot:spring-boot-starter'
+
+		api 'net.devh:grpc-server-spring-boot-starter:2.14.0.RELEASE'
+	}
+}

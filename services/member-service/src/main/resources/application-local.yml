@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/music?currentSchema=music}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/music?currentSchema=member}
     username: ${POSTGRES_DB_USERNAME:yoehadu}
     password: ${POSTGRES_DB_PASSWORD:music753951}
     driver-class-name: org.postgresql.Driver

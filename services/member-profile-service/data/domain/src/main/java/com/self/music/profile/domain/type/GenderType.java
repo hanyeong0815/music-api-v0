@@ -1,4 +1,4 @@
-package com.self.music.member.domain.type;
+package com.self.music.profile.domain.type;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.RequiredArgsConstructor;

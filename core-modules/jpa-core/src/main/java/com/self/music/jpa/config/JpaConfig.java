@@ -1,4 +1,4 @@
-package com.self.music.member.rdb.config;
+package com.self.music.jpa.config;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Configuration;

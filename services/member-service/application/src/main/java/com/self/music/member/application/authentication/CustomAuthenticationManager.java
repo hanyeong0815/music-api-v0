@@ -1,5 +1,7 @@
 package com.self.music.member.application.authentication;
 
+import com.self.music.member.application.authentication.utils.CommonAuthenticationToken;
+import com.self.music.member.application.authentication.utils.UserAuthenticationToken;
 import com.self.music.member.application.exception.MemberErrorCode;
 import com.self.music.member.application.usecase.MemberAuthenticateUseCase;
 import lombok.RequiredArgsConstructor;

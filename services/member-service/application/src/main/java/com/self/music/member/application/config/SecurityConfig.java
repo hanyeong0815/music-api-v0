@@ -1,5 +1,7 @@
 package com.self.music.member.application.config;
 
+import com.self.music.member.application.authentication.CustomAuthenticationManager;
+import com.self.music.member.application.authentication.UserAuthenticationFilter;
 import com.self.music.passwordEncoder.PasswordEncoderFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

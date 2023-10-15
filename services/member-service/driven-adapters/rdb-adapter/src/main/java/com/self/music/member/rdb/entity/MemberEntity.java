@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.self.music.member.rdb.support.MemberSchemaConstants.SCHEMA;
-import static com.self.music.member.rdb.support.MemberSchemaConstants.TB_MEMBER;
+import static com.self.music.member.rdb.support.MemberSchemaConstants.*;
 
 @Entity
 @Builder
@@ -32,6 +31,10 @@ public class MemberEntity extends UuidBaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     public MemberStatus status;
     @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = TB_MEMBER_ROLES,
+            joinColumns = @JoinColumn(name = "memberId")
+    )
     @Builder.Default
     public List<String> roles = new ArrayList<>();
 

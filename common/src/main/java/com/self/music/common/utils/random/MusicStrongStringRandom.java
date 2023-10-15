@@ -8,7 +8,7 @@ import java.util.Base64.Encoder;
 
 @Component
 @RequiredArgsConstructor
-public class EellooStrongStringRandom implements StrongStringRandom {
+public class MusicStrongStringRandom implements StrongStringRandom {
 
     /**
      * Base 64 Encoder

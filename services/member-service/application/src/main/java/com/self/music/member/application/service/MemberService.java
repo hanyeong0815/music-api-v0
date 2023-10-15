@@ -25,7 +25,7 @@ public class MemberService
 
     @Override
     public Member save(Member member) {
-        return null;
+        return memberRepository.save(member);
     }
 
     @Override

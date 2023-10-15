@@ -6,6 +6,7 @@ spring:
     import:
       - app/cors/cors.yml
       - app/time/time.yml # classpath:/app/time/time.yml
+      - app/jwt/jwt.yml
 
   datasource:
     url: ${POSTGRES_URL:jdbc:postgresql://music-postgresql.crbsgynxozh6.ap-northeast-2.rds.amazonaws.com:5432/postgres}

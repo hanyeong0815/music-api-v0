@@ -22,9 +22,11 @@ public class MemberService
         MemberSaveUseCase
 {
     private final MemberRepository memberRepository;
+    private final PasswordEncoder encoder;
 
     @Override
     public Member save(Member member) {
+        member.password = encoder.encode(member.password);
         return memberRepository.save(member);
     }
 

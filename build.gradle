@@ -145,6 +145,7 @@ project(memberService) {
 		implementation project(globalExceptionHandlerCoreModule)
 		api project(memberApplicationModule)
 		api project(memberRdbAdapter)
+		api project(memberWebAdapter)
 
 		implementation 'org.springframework.boot:spring-boot-starter-web'
 		implementation 'org.springframework.boot:spring-boot-starter-validation'

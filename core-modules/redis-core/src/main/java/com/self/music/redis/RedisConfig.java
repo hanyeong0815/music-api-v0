@@ -3,6 +3,7 @@ package com.self.music.redis;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ import static com.self.music.common.support.ServerConstants.BASE_PACKAGE;
 @RequiredArgsConstructor
 @ConfigurationPropertiesScan(basePackageClasses = RedisProperties.class)
 @EnableRedisRepositories(basePackages = BASE_PACKAGE)
+@EntityScan(basePackages = BASE_PACKAGE)
 public class RedisConfig {
     private final RedisProperties redisProperties;
 

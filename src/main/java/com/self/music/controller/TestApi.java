@@ -1,9 +1,7 @@
 package com.self.music.controller;
 
 import com.self.music.domain.Board;
-import com.self.music.domain.RefreshTokenRedis;
 import com.self.music.domain.Users;
-import com.self.music.dto.response.TestResponse;
 import com.self.music.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Instant;
 import java.util.List;
 
 @RestController

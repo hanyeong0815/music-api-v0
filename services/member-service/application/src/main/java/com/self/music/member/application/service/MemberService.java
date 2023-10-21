@@ -5,12 +5,15 @@ import com.self.music.member.application.aspect.MemberSaveAspect;
 import com.self.music.member.application.authentication.token.JwtTokenProvider;
 import com.self.music.member.application.exception.MemberErrorCode;
 import com.self.music.member.application.repository.MemberRepository;
+import com.self.music.member.application.repository.RefreshTokenRepository;
 import com.self.music.member.application.usecase.MemberAuthenticateUseCase;
 import com.self.music.member.application.usecase.MemberLoginUseCase;
 import com.self.music.member.application.usecase.MemberSaveUseCase;
 import com.self.music.member.application.usecase.data.TokenPair;
 import com.self.music.member.domain.Member;
+import com.self.music.member.domain.RefreshToken;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +22,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import static com.self.music.common.utils.exception.Preconditions.validate;
+import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -64,6 +67,13 @@ public class MemberService
     public TokenPair login(Authentication authentication) {
         String token = provider.generateToken(authentication);
         String refreshToken = random.nextString();
+//        RefreshToken refreshTokenDomain = RefreshToken.builder()
+//                .refreshToken(refreshToken)
+//                .subject(authentication.getName())
+//                .createdAt(Instant.now())
+//                .ttl(2628000L)
+//                .build();
+//        refreshTokenRepository.save(refreshTokenDomain);
         return TokenPair.builder()
                 .accessToken(STR."Bearer \{token}")
                 .refreshToken(refreshToken)

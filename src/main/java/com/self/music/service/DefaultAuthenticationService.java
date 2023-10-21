@@ -1,7 +1,6 @@
 package com.self.music.service;
 
 import com.self.music.authentication.token.JwtTokenProvider;
-import com.self.music.domain.RefreshTokenRedisRepo;
 import com.self.music.dto.request.TokenReissueRequest;
 import com.self.music.dto.response.JwtResponse;
 import com.self.music.exception.token.TokenErrorCode;

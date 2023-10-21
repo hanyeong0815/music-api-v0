@@ -28,7 +28,7 @@ import java.nio.charset.StandardCharsets;
 public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public UserAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
-        setRequiresAuthenticationRequestMatcher(new OrRequestMatcher(new AntPathRequestMatcher("/login")));
+        setRequiresAuthenticationRequestMatcher(new OrRequestMatcher(new AntPathRequestMatcher("/member/login")));
 
         setAuthenticationSuccessHandler(((request, response, authentication) -> {
             HttpSession session = request.getSession(false);

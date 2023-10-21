@@ -24,6 +24,11 @@ public class MemberPersistence implements MemberRepository {
     }
 
     @Override
+    public boolean existsByUsername(String username) {
+        return repository.existsByUsername(username);
+    }
+
+    @Override
     public Optional<Member> findByUsername(String username) {
         return repository.findByUsername(username)
                 .map(mapper::toDomain);

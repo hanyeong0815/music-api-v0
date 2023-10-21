@@ -137,6 +137,15 @@ project(securityModule) {
 	}
 }
 
+project(gsonCore) {
+	dependencies {
+		implementation commonProject
+
+		// GSON
+		api 'com.google.code.gson:gson:2.10.1'
+	}
+}
+
 // ============================================== member-service
 project(memberService) {
 	dependencies {
@@ -180,6 +189,9 @@ project(memberApplicationModule) {
 
 		implementation 'org.springframework.boot:spring-boot-starter-security'
 		implementation 'org.jetbrains:annotations:24.0.1'
+
+		// AOP
+		implementation 'org.springframework.boot:spring-boot-starter-aop'
 
 		// GSON
 		implementation 'com.google.code.gson:gson:2.10.1'
@@ -225,10 +237,12 @@ project(memberRedisAdapter) {
 project(memberWebAdapter) {
 	dependencies {
 		implementation commonProject
+		implementation project(gsonCore)
 		implementation project(memberApplicationModule)
 
 		implementation 'org.springframework.boot:spring-boot-starter-web'
 		implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 
 		// Map Struct
 		implementation 'org.mapstruct:mapstruct:1.5.3.Final'

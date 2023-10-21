@@ -7,7 +7,6 @@ import com.self.music.member.application.usecase.MemberAuthenticateUseCase;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,15 +29,17 @@ public class CustomAuthenticationManager implements AuthenticationProvider {
         UserDetails user = defaultUserService.loadUserByUsername(authentication.getName());
 
         validate(
-                user != null,
+                user == null,
                 MemberErrorCode.NO_SUCH_USER
         );
 
         boolean isAuthenticated = pwEncoder.matches((String) authentication.getCredentials(), user.getPassword());
 
-        if (!isAuthenticated) {
-         throw new BadCredentialsException("wrong authentication information");
-        }
+        validate(
+                !isAuthenticated,
+                MemberErrorCode.INVALID_USERNAME_OR_PASSWORD
+        );
+
         authentication = CommonAuthenticationToken
                 .authenticated(
                         UserAuthenticationToken.class,

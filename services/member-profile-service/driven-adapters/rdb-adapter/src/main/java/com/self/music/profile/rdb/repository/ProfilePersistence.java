@@ -7,6 +7,8 @@ import com.self.music.profile.rdb.mapper.ProfileEntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class ProfilePersistence implements ProfileRepository {
@@ -19,5 +21,16 @@ public class ProfilePersistence implements ProfileRepository {
         return mapper.toDomain(
                 repository.save(profileEntity)
         );
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return repository.existsByUsername(username);
+    }
+
+    @Override
+    public Optional<Profile> findByUsername(String username) {
+        return repository.findByUsername(username)
+                .map(mapper::toDomain);
     }
 }

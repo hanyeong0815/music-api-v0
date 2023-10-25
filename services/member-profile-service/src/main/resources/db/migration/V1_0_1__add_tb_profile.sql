@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS profile.profile (
     email           varchar(256),
     gender_type     varchar(30),
     name            varchar(50),
-    nickname        varcahr(50),
+    nickname        varchar(50),
 
     constraint      pk_profile_id       primary key(id)
 );

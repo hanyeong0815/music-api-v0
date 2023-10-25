@@ -4,16 +4,15 @@ import com.self.music.common.utils.random.StrongStringRandom;
 import com.self.music.member.application.aspect.MemberSaveAspect;
 import com.self.music.member.application.authentication.token.JwtTokenProvider;
 import com.self.music.member.application.exception.MemberErrorCode;
+import com.self.music.member.application.mapper.MemberProfileGrpcMapper;
 import com.self.music.member.application.repository.MemberRepository;
-import com.self.music.member.application.repository.RefreshTokenRepository;
 import com.self.music.member.application.usecase.MemberAuthenticateUseCase;
 import com.self.music.member.application.usecase.MemberLoginUseCase;
 import com.self.music.member.application.usecase.MemberSaveUseCase;
 import com.self.music.member.application.usecase.data.TokenPair;
 import com.self.music.member.domain.Member;
-import com.self.music.member.domain.RefreshToken;
+import com.self.music.member_profile_grpc.lib.MemberProfileInterfaceGrpc.MemberProfileInterfaceBlockingStub;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +21,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +33,7 @@ public class MemberService
 {
     private final MemberRepository memberRepository;
     private final JwtTokenProvider provider;
+
     private final PasswordEncoder encoder;
     private final StrongStringRandom random;
 

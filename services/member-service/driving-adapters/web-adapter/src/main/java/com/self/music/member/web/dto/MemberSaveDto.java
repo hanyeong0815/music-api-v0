@@ -1,5 +1,6 @@
 package com.self.music.member.web.dto;
 
+import com.self.music.member.domain.type.GenderType;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
@@ -19,12 +20,20 @@ public record MemberSaveDto() {
             @NotBlank
             @Pattern(regexp = PASSWORD, message = PASSWORD_MESSAGE)
             String password,
+            String email,
+            GenderType genderType,
+            String name,
+            String nickname,
             List<String> roles
     ) {}
 
     @Builder
     public record MemberSaveResponseDto(
             String username,
+            String email,
+            GenderType genderType,
+            String name,
+            String nickname,
             List<String> roles
     ) {}
 }

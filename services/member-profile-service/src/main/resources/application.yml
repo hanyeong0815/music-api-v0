@@ -1,15 +1,14 @@
 server:
-  port: 8080
+  port: 8090
 
 spring:
   config:
     import:
     - app/cors/cors.yml
     - app/time/time.yml # classpath:/app/time/time.yml
-    - app/jasypt/jasypt.yml
 
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://music-postgresql.crbsgynxozh6.ap-northeast-2.rds.amazonaws.com:5432/postgres}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/music?currentSchema=profile}
     username: ${POSTGRES_DB_USERNAME:yoehadu}
     password: ${POSTGRES_DB_PASSWORD:music753951}
     driver-class-name: org.postgresql.Driver
